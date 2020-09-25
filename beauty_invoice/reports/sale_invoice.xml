@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="internal_layout_lax">
+        <!-- Multicompany -->
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <div class="header">
+            
+       </div>
+        <div class="article">
+          <t t-raw="0" />
+        </div>
+    </template>
+
+
+
+    <template id="report_beauty_invoice_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <t t-call="beauty_invoice.internal_layout_lax">
+   
+                      
+ <table align="right" width="20%">
+  <thead style="font-size:12px">
+    <tr>
+      <th class="text-right" ><span t-field="o.invoice_date" t-options="{&quot;format&quot;: &quot;dd&quot;}"/></th>
+      <th class="text-center"><span t-field="o.invoice_date" t-options="{&quot;format&quot;: &quot;MM&quot;}"/></th>
+      <th class="text-right" width="7%"><span t-field="o.invoice_date" t-options="{&quot;format&quot;: &quot;yyyy&quot;}"/></th>
+    </tr>
+  </thead>
+</table>
+
+<table width="100%">
+  <thead style="font-size:12px">
+    <tr>
+      <th><span t-field="o.partner_id.name"/></th>
+      <th class="text-center"><span t-field="o.invoice_payment_term_id.name"/></th>
+      <th class="text-right" ><span t-field="o.name"/></th>
+    </tr>
+    <tr>
+      <th><span t-field="o.partner_id.street2"/></th>
+      <th class="text-center"><span t-field="o.partner_id.phone"/></th>
+      <th class="text-center" width="12%" ><span t-field="o.partner_id.vat"/></th>
+    </tr>
+  </thead>
+</table><br/><br/>
+
+<table width="100%" style="font-size:12px">
+  <thead>
+  <t t-foreach="o.invoice_line_ids" t-as="l">  
+    <tr>
+      <th width="6%"><span t-esc="'%.0f'%(l.quantity)"/></th>
+      <th><span t-field="l.name"/></th>
+      <th class="text-right"><span t-field="l.price_unit"/></th>
+      <th class="text-right"><span t-field="l.price_subtotal"/></th>
+    </tr>
+  </t>  
+  </thead>
+</table>
+
+ <div class="footer">
+    <table width="100%" style="font-size:14px" >
+      <thead>
+      <tr>
+        <th><span t-esc="o.get_amount_in_word()"/></th>
+        <th class="text-right"><span t-esc="o.amount_total"/></th>
+      </tr>
+      </thead>
+    </table>   
+  </div>  
+
+
+<style type="text/css">
+
+
+
+.margen {
+    padding-left: 30px;
+}
+
+
+</style>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
+

@@ -1,0 +1,26 @@
+from odoo import fields, models, api, _
+from odoo.addons.beauty_invoice import numero_a_texto
+
+class AccountInvoice(models.Model):
+    _inherit = "account.invoice"
+
+
+    def _discount_amount(self):
+        round_curr = self.currency_id.round
+        self.discount_total = sum((line.discount * line.price_unit)/100 for line in self.invoice_line_ids) 
+        self.discount_sub_total = sum(line.price_total for line in self.invoice_line_ids)
+
+
+
+
+    def get_amount_in_word(self):
+        # print ("invoice", invoice)
+        # return self.currency_id.amount_to_text(self.amount_total)
+        return str(numero_a_texto.Numero_a_Texto(self.amount_total))
+        # val = self.number_to_words(int(self.amount_total))
+        # val = return amount_to_text(amount, currency)
+    
+
+
+    discount_total = fields.Monetary(string='Descu', readonly=False, compute='_discount_amount') 
+    discount_sub_total = fields.Monetary(string='Sub', readonly=False, compute='_discount_amount')
